@@ -16,5 +16,18 @@
   "profile": {
     "name": "typicode"
   },
-  "employees": []
+  "employees": [
+    {
+      "firstName": "gustavo",
+      "lastName": "rocha",
+      "email": "gus@gmail.com",
+      "dob": "2023-03-02T03:00:00.000Z",
+      "gender": "",
+      "education": "Post Graduate",
+      "company": "",
+      "experience": "4",
+      "package": "12",
+      "id": 1
+    }
+  ]
 }
