@@ -1,15 +1,14 @@
 import { EmployeeService } from './../services/employee.service';
-import { Component } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { DialogRef } from '@angular/cdk/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-employee-add-edit',
   templateUrl: './employee-add-edit.component.html',
-  styleUrls: ['./employee-add-edit.component.scss']
+  styleUrls: ['./employee-add-edit.component.scss'],
 })
-export class EmployeeAddEditComponent {
-
+export class EmployeeAddEditComponent implements OnInit {
   employeeForm: FormGroup;
 
   education: string[] = [
@@ -17,10 +16,15 @@ export class EmployeeAddEditComponent {
     'Diploma',
     'Intermediate',
     'Graduate',
-    'Post Graduate'
-  ]
+    'Post Graduate',
+  ];
 
-  constructor(private _fb: FormBuilder, private _employeeService: EmployeeService, private _dialogRef: DialogRef<EmployeeAddEditComponent>){
+  constructor(
+    private _fb: FormBuilder,
+    private _employeeService: EmployeeService,
+    private _dialogRef: MatDialogRef<EmployeeAddEditComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any
+  ) {
     this.employeeForm = this._fb.group({
       firstName: '',
       lastName: '',
@@ -30,22 +34,45 @@ export class EmployeeAddEditComponent {
       education: '',
       company: '',
       experience: '',
-      package: ''
-    })
+      package: '',
+    });
+  }
+
+  ngOnInit(): void {
+    this.employeeForm.patchValue(this.data);
   }
 
   onFormSubmit() {
     if (this.employeeForm.valid) {
-      this._employeeService.addEmployee( this.employeeForm.value ).subscribe({
-        next: (value: any) => {
-            alert('employee added')
-            this._dialogRef.close()
-        },
-        error: (err: any) => {
-          alert(err)
-        },
-      })
+      if (this.data) {
+        this.updateEmployee()
+      } else {
+        this.saveEmployee()
+      }
     }
   }
 
+  updateEmployee() {
+    this._employeeService.updateEmployee(this.data.id, this.employeeForm.value).subscribe({
+      next: (value: any) => {
+        console.log('employee updated');
+        this._dialogRef.close(true);
+      },
+      error: (err: any) => {
+        console.log(err);
+      },
+    });
+  }
+
+  saveEmployee() {
+    this._employeeService.addEmployee(this.employeeForm.value).subscribe({
+      next: (value: any) => {
+        console.log('employee added');
+        this._dialogRef.close(true);
+      },
+      error: (err: any) => {
+        console.log(err);
+      },
+    });
+  }
 }

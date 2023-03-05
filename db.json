@@ -22,12 +22,24 @@
       "lastName": "rocha",
       "email": "gus@gmail.com",
       "dob": "2023-03-02T03:00:00.000Z",
-      "gender": "",
+      "gender": "male",
       "education": "Post Graduate",
-      "company": "",
+      "company": "Google",
       "experience": "4",
       "package": "12",
       "id": 1
+    },
+    {
+      "firstName": "yasmim",
+      "lastName": "maria",
+      "email": "yasmim@gmail.com",
+      "dob": "2023-03-06T03:00:00.000Z",
+      "gender": "female",
+      "education": "Graduate",
+      "company": "Amazon",
+      "experience": "6",
+      "package": "8",
+      "id": 2
     }
   ]
 }

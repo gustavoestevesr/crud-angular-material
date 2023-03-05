@@ -20,11 +20,13 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { EmployeeAddEditComponent } from './employee-add-edit/employee-add-edit.component';
+import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    EmployeeAddEditComponent
+    EmployeeAddEditComponent,
+    ConfirmationDialogComponent
   ],
   imports: [
     BrowserModule,

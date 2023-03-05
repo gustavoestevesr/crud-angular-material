@@ -1,11 +1,11 @@
-import { Observable } from 'rxjs/internal/Observable';
-import { EmployeeService } from './services/employee.service';
-import { EmployeeAddEditComponent } from './employee-add-edit/employee-add-edit.component';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
+import { EmployeeAddEditComponent } from './employee-add-edit/employee-add-edit.component';
+import { EmployeeService } from './services/employee.service';
 
 @Component({
   selector: 'app-root',
@@ -24,6 +24,7 @@ export class AppComponent implements OnInit {
     'company',
     'experience',
     'package',
+    'actions'
   ];
   dataSource!: MatTableDataSource<any>;
 
@@ -40,10 +41,51 @@ export class AppComponent implements OnInit {
   }
 
   openAddEditEmployeeForm(): void {
-    this._dialog.open(EmployeeAddEditComponent, {
+    const dialogAddEditEmployeeRef = this._dialog.open(EmployeeAddEditComponent, {
       width: '600px',
       enterAnimationDuration: '150ms',
       exitAnimationDuration: '150ms',
+    });
+
+    dialogAddEditEmployeeRef.afterClosed().subscribe({
+      next: (res) => {
+        if (res) {
+          console.log('refresh list')
+          this.getEmployeeList();
+        }
+      }
+    });
+  }
+
+  openEditEmployeeForm(data: any): void {
+    const dialogAddEditEmployeeRef = this._dialog.open(EmployeeAddEditComponent, {
+      width: '600px',
+      enterAnimationDuration: '150ms',
+      exitAnimationDuration: '150ms',
+      data: data
+    });
+
+    dialogAddEditEmployeeRef.afterClosed().subscribe({
+      next: (res) => {
+        if (res) {
+          console.log('refresh list')
+          this.getEmployeeList();
+        }
+      }
+    });
+  }
+
+  openConfirmationDialog(_id: number): void {
+    const dialogConfirmationRef = this._dialog.open(ConfirmationDialogComponent, {
+      width: '350px',
+      enterAnimationDuration: '150ms',
+      exitAnimationDuration: '150ms',
+    });
+
+    dialogConfirmationRef.afterClosed().subscribe(res => {
+      if ( res ) {
+        this.deleteEmployee(_id);
+      }
     });
   }
 
@@ -53,6 +95,18 @@ export class AppComponent implements OnInit {
         this.dataSource = new MatTableDataSource(res);
         this.dataSource.sort = this.sort;
         this.dataSource.paginator = this.paginator;
+      },
+      error: (err) => {
+        console.log(err);
+      },
+    });
+  }
+
+  deleteEmployee(id: number) {
+    this._employeeService.deleteEmployee(id).subscribe({
+      next: (res) => {
+        console.log(`employee deleted`);
+        this.getEmployeeList();
       },
       error: (err) => {
         console.log(err);

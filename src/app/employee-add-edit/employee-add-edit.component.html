@@ -74,7 +74,7 @@
   </div>
 </div>
 <div mat-dialog-actions class="action">
-  <button mat-raised-button mat-dialog-close>Cancel</button>
-  <button type="submit" mat-raised-button mat-dialog-close cdkFocusInitial color="primary">Save</button>
+  <button type="button" mat-raised-button [mat-dialog-close]="false">Cancel</button>
+  <button type="submit" mat-raised-button mat-dialog-close cdkFocusInitial color="primary" > {{data ? 'Update' : 'Save'}} </button>
 </div>
 </form>
