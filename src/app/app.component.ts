@@ -25,7 +25,7 @@ export class AppComponent implements OnInit {
     'company',
     'experience',
     'package',
-    'actions'
+    'actions',
   ];
   dataSource!: MatTableDataSource<any>;
 
@@ -43,49 +43,56 @@ export class AppComponent implements OnInit {
   }
 
   openAddEditEmployeeForm(): void {
-    const dialogAddEditEmployeeRef = this._dialog.open(EmployeeAddEditComponent, {
-      width: '600px',
-      enterAnimationDuration: '150ms',
-      exitAnimationDuration: '150ms',
-    });
+    const dialogAddEditEmployeeRef = this._dialog.open(
+      EmployeeAddEditComponent,
+      {
+        width: '600px',
+        enterAnimationDuration: '150ms',
+        exitAnimationDuration: '150ms',
+      }
+    );
 
     dialogAddEditEmployeeRef.afterClosed().subscribe({
       next: (res) => {
         if (res) {
-          console.log('refresh list')
+          console.log('refresh list');
           this.getEmployeeList();
         }
-      }
+      },
     });
   }
 
   openEditEmployeeForm(data: any): void {
-    const dialogAddEditEmployeeRef = this._dialog.open(EmployeeAddEditComponent, {
-      width: '600px',
-      enterAnimationDuration: '150ms',
-      exitAnimationDuration: '150ms',
-      data: data
-    });
+    const dialogAddEditEmployeeRef = this._dialog.open(
+      EmployeeAddEditComponent,
+      {
+        width: '600px',
+        enterAnimationDuration: '150ms',
+        exitAnimationDuration: '150ms',
+        data: data,
+      }
+    );
 
     dialogAddEditEmployeeRef.afterClosed().subscribe({
       next: (res) => {
-        if (res) {
-          console.log('refresh list')
-          this.getEmployeeList();
-        }
-      }
+        console.log('refresh list');
+        this.getEmployeeList();
+      },
     });
   }
 
   openConfirmationDialog(_id: number): void {
-    const dialogConfirmationRef = this._dialog.open(ConfirmationDialogComponent, {
-      width: '350px',
-      enterAnimationDuration: '150ms',
-      exitAnimationDuration: '150ms',
-    });
+    const dialogConfirmationRef = this._dialog.open(
+      ConfirmationDialogComponent,
+      {
+        width: '350px',
+        enterAnimationDuration: '150ms',
+        exitAnimationDuration: '150ms',
+      }
+    );
 
-    dialogConfirmationRef.afterClosed().subscribe(res => {
-      if ( res ) {
+    dialogConfirmationRef.afterClosed().subscribe((res) => {
+      if (res) {
         this.deleteEmployee(_id);
       }
     });

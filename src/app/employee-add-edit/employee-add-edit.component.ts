@@ -47,23 +47,25 @@ export class EmployeeAddEditComponent implements OnInit {
   onFormSubmit() {
     if (this.employeeForm.valid) {
       if (this.data) {
-        this.updateEmployee()
+        this.updateEmployee();
       } else {
-        this.saveEmployee()
+        this.saveEmployee();
       }
     }
   }
 
   updateEmployee() {
-    this._employeeService.updateEmployee(this.data.id, this.employeeForm.value).subscribe({
-      next: (value: any) => {
-        this._coreService.openSnackBar('Employee Updated!', 'ok');
-        this._dialogRef.close(true);
-      },
-      error: (err: any) => {
-        console.log(err);
-      },
-    });
+    this._employeeService
+      .updateEmployee(this.data.id, this.employeeForm.value)
+      .subscribe({
+        next: (value: any) => {
+          this._coreService.openSnackBar('Employee Updated!', 'ok');
+          this._dialogRef.close(true);
+        },
+        error: (err: any) => {
+          console.log(err);
+        },
+      });
   }
 
   saveEmployee() {
