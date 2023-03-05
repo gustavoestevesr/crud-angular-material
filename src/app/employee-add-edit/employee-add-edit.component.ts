@@ -1,3 +1,4 @@
+import { CoreService } from './../core/core.service';
 import { EmployeeService } from './../services/employee.service';
 import { Component, OnInit, Inject } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
@@ -23,6 +24,7 @@ export class EmployeeAddEditComponent implements OnInit {
     private _fb: FormBuilder,
     private _employeeService: EmployeeService,
     private _dialogRef: MatDialogRef<EmployeeAddEditComponent>,
+    private _coreService: CoreService,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     this.employeeForm = this._fb.group({
@@ -55,7 +57,7 @@ export class EmployeeAddEditComponent implements OnInit {
   updateEmployee() {
     this._employeeService.updateEmployee(this.data.id, this.employeeForm.value).subscribe({
       next: (value: any) => {
-        console.log('employee updated');
+        this._coreService.openSnackBar('Employee Updated!', 'ok');
         this._dialogRef.close(true);
       },
       error: (err: any) => {
@@ -67,7 +69,7 @@ export class EmployeeAddEditComponent implements OnInit {
   saveEmployee() {
     this._employeeService.addEmployee(this.employeeForm.value).subscribe({
       next: (value: any) => {
-        console.log('employee added');
+        this._coreService.openSnackBar('Employee Added!', 'ok');
         this._dialogRef.close(true);
       },
       error: (err: any) => {

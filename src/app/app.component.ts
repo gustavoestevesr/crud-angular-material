@@ -1,3 +1,4 @@
+import { CoreService } from './core/core.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
@@ -33,7 +34,8 @@ export class AppComponent implements OnInit {
 
   constructor(
     private _dialog: MatDialog,
-    private _employeeService: EmployeeService
+    private _employeeService: EmployeeService,
+    private _coreService: CoreService
   ) {}
 
   ngOnInit(): void {
@@ -105,7 +107,7 @@ export class AppComponent implements OnInit {
   deleteEmployee(id: number) {
     this._employeeService.deleteEmployee(id).subscribe({
       next: (res) => {
-        console.log(`employee deleted`);
+        this._coreService.openSnackBar('Employee deleted!', 'done');
         this.getEmployeeList();
       },
       error: (err) => {
